@@ -1,0 +1,10 @@
+{
+  "name": "eVault",
+  "start_url": "https://evault.cloud",
+  "description": "eVault",
+  "icons": [{
+    "src": "https://evault.cloud/icon.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }]
+}

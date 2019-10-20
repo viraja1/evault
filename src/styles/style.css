@@ -1,0 +1,136 @@
+.bg-nav {
+  background-color: #535466;
+}
+
+.panel-landing {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  position: fixed;
+  overflow: auto;
+
+  background-color: #fff;
+  background-repeat: repeat;
+}
+
+html, body {
+  height: 100%;
+}
+
+#container {
+  min-height: 100%;
+  height: 100%;
+}
+
+.site-wrapper {
+  min-height: 100%;
+  height: 100%;
+}
+
+.site-sub-wrapper {
+  min-height: 100%;
+  height: 100%;
+}
+
+main {
+  min-height: 100%;
+  height: 100%;
+}
+
+.login {
+    background-color: #03A9F4;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: all 0.1s ease-out;
+    margin-left: 1rem;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+nav{
+  width: 100%;
+  height:75px;
+}
+
+
+#box-container {
+  max-width: 900px;
+  margin: 50px auto 0;
+}
+
+#box-container header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#box-container header h1 {
+  font-size: 21px;
+  padding-left: 15px;
+  margin-left: 15px;
+  border-left: 1px solid #ddd;
+}
+
+#box-container header button svg {
+  margin-right: 10px;
+}
+
+#box-container header button:hover {
+  opacity: 0.9;
+}
+
+#box-container .upload {
+  border-radius: 4px;
+  padding: 30px;
+  text-align: center;
+  border: 1px dashed #ddd;
+  color: #999;
+  margin-top: 50px;
+  cursor: pointer;
+}
+
+#box-container ul {
+  margin: 30px 0;
+  list-style: none;
+}
+
+#box-container ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#box-container ul li + li {
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+#box-container ul li .fileInfo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+#box-container ul li .fileInfo strong {
+  font-weight: normal;
+  font-size: 14px;
+  margin-left: 10px;
+  color: #333;
+}
+
+#box-container ul li span {
+  color: #999;
+  font-size: 13px;
+}
