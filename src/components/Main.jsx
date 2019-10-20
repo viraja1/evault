@@ -29,7 +29,9 @@ class Main extends Component {
       this.setState({files: files});
       return true;
     }).then(() => {
-    }).catch();
+    }).catch(
+        this.setState({files: []})
+    );
   }
 
   handleUpload(files) {
