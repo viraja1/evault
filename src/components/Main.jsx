@@ -5,7 +5,7 @@ import {AppConfig} from 'blockstack'
 import Dropzone from 'react-dropzone';
 import {MdInsertDriveFile, MdDeleteForever, MdCloudDownload} from 'react-icons/md';
 import {Image} from 'react-bootstrap';
-
+import Alert from 'react-bootstrap/Alert';
 const appConfig = new AppConfig(['store_write']);
 
 
@@ -14,7 +14,8 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      files: []
+      files: [],
+      message: ''
     };
   }
 
@@ -22,28 +23,48 @@ class Main extends Component {
     this.loadFiles();
   }
 
-  loadFiles() {
+  loadFiles(info = true) {
     let files = [];
+    if(info === true) {
+      this.setState({message: 'Fetching your files ....'});
+    }
     this.props.userSession.listFiles((file) => {
       files.push(file);
-      this.setState({files: files});
       return true;
     }).then(() => {
-    }).catch(
-        this.setState({files: []})
-    );
+      this.setState({files: files});
+      if(info === true) {
+        this.setState({message: ''});
+      }
+    }).catch(() => {
+      this.setState({files: []});
+      if(info === true) {
+        this.setState({message: ''});
+      }
+    })
+  }
+
+  hideAlert(){
+    this.setState({message: ''});
   }
 
   handleUpload(files) {
     let userSession = this.props.userSession;
     let loadFiles = this.loadFiles.bind(this);
-    files.forEach(file => {
+    let hideAlert = this.hideAlert.bind(this);
+    this.setState({message: 'Uploading ' + files.map(function(n){ return n.name}).join(", ") + ' ....'});
+    files.forEach((file, idx, files) => {
       const options = {encrypt: true};
       let fileReader = new FileReader();
       fileReader.onload = function () {
         userSession.putFile(file.name, fileReader.result, options)
           .then(() => {
-            loadFiles();
+            if(idx === files.length - 1){
+              hideAlert();
+            }
+            loadFiles(false);
+          }).catch(() => {
+            hideAlert();
           });
       };
       fileReader.readAsArrayBuffer(file);
@@ -51,20 +72,28 @@ class Main extends Component {
   };
 
   deleteFile(file_name) {
+    this.setState({message: 'Deleting ' + file_name + " ...."});
     let userSession = this.props.userSession;
     let loadFiles = this.loadFiles.bind(this);
     userSession.deleteFile(file_name, {})
       .then(() => {
-        loadFiles();
+        this.setState({message: ''});
+        loadFiles(false);
+      }).catch(() => {
+        this.setState({message: ''});
       });
   }
 
   downloadFile(file_name) {
+    this.setState({message: 'Downloading ' + file_name + " ...."});
     let userSession = this.props.userSession;
     let createAndDownloadBlobFile = this.createAndDownloadBlobFile;
     userSession.getFile(file_name, {decrypt: true})
       .then((file) => {
         createAndDownloadBlobFile(file, file_name);
+        this.setState({message: ''});
+      }).catch(() => {
+        this.setState({message: ''});
       });
   }
 
@@ -104,21 +133,28 @@ class Main extends Component {
             {({getRootProps, getInputProps}) => (
               <div className="upload" {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Upload your files here</p>
+                <p>Drag 'n' drop some files here, or click to select files</p>
               </div>
             )}
           </Dropzone>
-          <ul>
+          {this.state.message !== '' &&
+            <div>
+            <Alert variant="primary">
+              {this.state.message}
+            </Alert>
+            </div>
+          }
+          <ul style={{overflowY: "scroll", height:"320px"}}>
             {this.state.files && this.state.files.map(file => (
               <li key={file}>
                 <div className="fileInfo">
-                  <MdInsertDriveFile size={24} color="#A5Cfff"/>
+                  <MdInsertDriveFile size={26} color="#A5Cfff"/>
                   <strong>{file}</strong>
                 </div>
                 <div style={{float: "right"}}>
-                  <MdCloudDownload size={24} color="#A5Cfff" onClick={e => this.downloadFile(file)}
+                  <MdCloudDownload size={26} color="#A5Cfff" onClick={e => this.downloadFile(file)}
                                    style={{cursor: "pointer"}}/>
-                  <MdDeleteForever size={24} color="#A5Cfff"
+                  <MdDeleteForever size={26} color="#A5Cfff"
                                    onClick={e => window.confirm("Are you sure you want to delete this file?") && this.deleteFile(file)}
                                    style={{cursor: "pointer"}}/>
                 </div>

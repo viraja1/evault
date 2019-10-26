@@ -26,7 +26,7 @@ export default class Signin extends Component {
           <p>
             10 GB free storage
           </p>
-          <Image src="https://cdn.pixabay.com/photo/2017/10/26/21/35/equipment-2892575_640.jpg" fluid/>
+          <Image src="https://cdn.pixabay.com/photo/2017/10/26/21/35/equipment-2892575__480.jpg" style={{height: "320px"}} fluid/>
         </div>
         </div>
       </div>
